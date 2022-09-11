@@ -13,7 +13,25 @@
         public $login;
         public $password;
 
+        // К заданию № 9
+        const INFO_TITLE = "<h3>Данные пользователя:</h3><br />";
+
         public function __construct(){
+
+        }
+
+        public function __clone(){
+
+            $this->name = "Guest";
+            $this->login = "guest";
+            $this->password = "qwerty";
+
+        }
+
+        // К заданию № 9
+        public function showTitle(){
+
+            echo(self::INFO_TITLE);
 
         }
 
@@ -51,8 +69,12 @@
 	- Вызовите метод showInfo() для каждого объекта
 	*/
 
+    echo(User::INFO_TITLE); // К 9-му заданию
     $user01->showInfo();
+    echo(User::INFO_TITLE); // К 9-му заданию
     $user02->showInfo();
+    echo(User::INFO_TITLE); // К 9-му заданию
+    $user03->showTitle(); // К заданию № 9
     $user03->showInfo();
 
 	/*
@@ -99,6 +121,10 @@
 	- Значения свойств по умолчанию: name = "Guest", login = "guest", password = "qwerty" 
 	- Создайте четвёртый объект скопировав один из имеющихся объектов
 	*/
+
+    $user05 = clone($user01);
+    $user05->showInfo();
+
 	/*
 	ЗАДАНИЕ 5
 	- Опишите класс SuperUser наследованный от класса User
@@ -107,12 +133,55 @@
 	- Вызовите метод showInfo() для созданного объекта 
 	- Отдельно от метода showInfo() выведите значение свойства role
 	*/
+
+    class SuperUser extends User {
+
+        public $role;
+
+        // Для задания № 6
+        function __construct($name, $login, $password, $role){
+
+            $this->name = $name;
+            $this->login = $login;
+            $this->password = $password;
+            $this->role = $role;
+
+        }
+
+        // Для задания № 6
+        function showInfo(){
+
+            echo("<b>Name:</b> ".$this->name."<br />");
+            echo("<b>Login:</b> ".$this->login."<br />");
+            echo("<b>Password:</b> ".$this->password."<br />");
+            echo("<b>Role:</b> ".$this->role."<br />");
+            echo("<br />");
+
+        }
+
+    }
+
+    /*
+    // Для задания № 5. Будет конфликтовать с заданием № 6, поэтому закомментил...
+    $superUser1 = new SuperUser();
+    $superUser1->role = "admin";
+    $superUser1->showInfo(); // Будет пусто...
+    echo($superUser1->role);
+    */
+
+    // Для задания № 6
+    $superUser2 = new SuperUser("Super User", "root", "pass@Word1", "admin");
+    $superUser2->showInfo();
+
 	/*
 	ЗАДАНИЕ 6
 	- Опишите конструктор класса SuperUser, который будет задавать начальные значения свойств
 	- В классе SuperUser опишите метод showInfo(), который будет выводить на экран значения всех свойств
 	- Создайте заново объект класса SuperUser и вызовите метод showInfo().
 	*/
+
+    // См. выше
+
 	/*
 	ЗАДАНИЕ 7
 	- Измените конструктор класса SuperUser, вызвав родительский конструктор
@@ -120,6 +189,31 @@
 	- Измените метод showInfo() класса SuperUser, вызвав родительский метод showInfo()
 	- Передайте родительскому методу необходимые значения
 	*/
+
+    class SuperUser2 extends User2{
+
+        public $role;
+
+        function __construct($name, $login, $password, $role){
+
+            parent::__construct($name, $login, $password);
+            $this->role = $role;
+
+        }
+
+        function showInfo(){
+
+            parent::showInfo();
+            echo("<b>Role: </b>".$this->role."<br />");
+            echo("<br />");
+
+        }
+
+    }
+
+    $superUser3 = new SuperUser2("Second Super User", "root2", "pass@Word2", "admin");
+    $superUser3->showInfo();
+
 	/*
 	ЗАДАНИЕ 8
 	- Сделайте все параметры конструктора класса User параметрами по умолчанию со значениями "пустая строка"("")
@@ -127,6 +221,38 @@
 	- Опишите перехват исключения и выводите в браузер сообщение об ошибке
 	- Попробуйте создать экземпляр класса User без какого-либо параметра(-ов)
 	*/
+
+    class User08 {
+
+        private $name;
+        private $login;
+        private $password;
+
+        function __construct($name = "", $login = "", $password = ""){
+
+            try{
+
+                if(($name == "") || ($login == "") || ($password == "")) {
+                    throw new Exception("Введены не все данные!");
+                }
+
+                $this->name = $name;
+                $this->login = $login;
+                $this->password = $password;
+
+            }catch(Exception $e08){
+
+                echo $e08->getMessage();
+
+            }
+
+        }
+
+    }
+
+    $user08 = new User08("name", "login", "");
+
+
 	/*
 	ЗАДАНИЕ 9
 	- Создайте константу класса User INFO_TITLE
@@ -137,6 +263,9 @@
 	- Опишите метод showTitle(), чтобы он выводил в браузер значение константы INFO_TITLE
 	- Обратитесь к метод showTitle() перед вызовами метода showInfo()
 	*/
+
+
+
 	/*
 	ЗАДАНИЕ 10
 	- Создайте абстрактный класс AUser
