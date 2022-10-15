@@ -7,20 +7,34 @@
 	- Задайте произвольные значения свойств name, login и password для каждого из объектов
 	*/
 
-    class User {
+    // К заданию №10
+    abstract class AUser {
+
+        abstract function showInfo();
+
+    }
+
+    class User extends AUser {
 
         public $name;
         public $login;
         public $password;
 
+        // К заданию № 12
+        static $usersCount = 0;
+
         // К заданию № 9
         const INFO_TITLE = "<h3>Данные пользователя:</h3><br />";
 
         public function __construct(){
-
+            // К заданию № 12
+            self::$usersCount++;
         }
 
         public function __clone(){
+
+            // К заданию № 12
+            self::$usersCount++;
 
             $this->name = "Guest";
             $this->login = "guest";
@@ -93,6 +107,8 @@
 
         public function __construct($name, $login, $password)
         {
+            // К заданию № 12
+            User::$usersCount++;
 
             $this->name = $name;
             $this->login = $login;
@@ -134,12 +150,25 @@
 	- Отдельно от метода showInfo() выведите значение свойства role
 	*/
 
-    class SuperUser extends User {
+    // Для задания №11
+    interface ISuperUser {
+
+        function getInfo();
+
+    }
+
+    class SuperUser extends User implements ISuperUser {
 
         public $role;
 
+        // К заданию № 12
+        static $superUsersCount = 0;
+
         // Для задания № 6
         function __construct($name, $login, $password, $role){
+
+            // К заданию № 12
+            self::$superUsersCount++;
 
             $this->name = $name;
             $this->login = $login;
@@ -159,6 +188,29 @@
 
         }
 
+        // Для задания №11
+        function getInfo(){
+
+            /*
+            $information = array(
+                "Name" => $this->name,
+                "Login" => $this->login,
+                "Password" => $this->password,
+                "Role" => $this->role
+            );
+            */
+
+            $information = array();
+            foreach($this as $key=>$value) {
+
+                $information[$key] = $value;
+
+            }
+
+            return $information;
+
+        }
+
     }
 
     /*
@@ -172,6 +224,8 @@
     // Для задания № 6
     $superUser2 = new SuperUser("Super User", "root", "pass@Word1", "admin");
     $superUser2->showInfo();
+
+    print_r($superUser2->getInfo());
 
 	/*
 	ЗАДАНИЕ 6
@@ -196,8 +250,12 @@
 
         function __construct($name, $login, $password, $role){
 
+            // К заданию № 12
+            SuperUser::$superUsersCount++;
+
             parent::__construct($name, $login, $password);
             $this->role = $role;
+            User::$usersCount--;
 
         }
 
@@ -236,6 +294,9 @@
                     throw new Exception("Введены не все данные!");
                 }
 
+                // К заданию № 12
+                User::$usersCount++;
+
                 $this->name = $name;
                 $this->login = $login;
                 $this->password = $password;
@@ -264,7 +325,7 @@
 	- Обратитесь к метод showTitle() перед вызовами метода showInfo()
 	*/
 
-
+    // См. выше
 
 	/*
 	ЗАДАНИЕ 10
@@ -274,6 +335,9 @@
 	- Внесите в класс User необходимые изменения
 	- Запустите код и проверьте его работоспособность
 	*/
+
+    // См. выше
+
 	/*
 	ЗАДАНИЕ 11
 	- Создайте интерфейс ISuperUser
@@ -284,6 +348,9 @@
 	- Вызовите метод getInfo() для экземпляра класса SuperUser
 	- В цикле выведите данные, полученные с помощью метода getInfo()
 	*/
+
+    // См. выше
+
 	/*
 	ЗАДАНИЕ 12
 	- Опишите в классах User и SuperUser статические свойства для подсчета количества созданных объектов
@@ -291,6 +358,9 @@
 	- В конструкторах инкрементируйте значения данных свойств
 	- После создания экземпляров классов User и SuperUser выведите в браузер количество тех и других объектов
 	*/
+
+    // См. выше в коде
+
 	/*
 	ЗАДАНИЕ 13
 	- Опишите функцию checkObject(), которая принимает в качестве входящего параметра объект
@@ -302,6 +372,21 @@
 	  Если объект не является ни тем, ни другим, выводите сообщение, 
 		что данный пользователь - неизвестный пользователь
 	*/
+
+    function checkObject($obj) {
+
+        if($obj instanceOf User) {
+            if($obj instanceOf SuperUser){
+                echo("Данный пользователь обладает правами администратора...<br />");
+            }else{
+                echo("Данный пользователь является обычным рядовым...<br />");
+            }
+        } else{
+            echo("Данный пользователь - неизвестный...<br />");
+        }
+
+    }
+
 	/*
 	ЗАДАНИЕ 14
 	- В директории "oop" создайте файл "User.class.php"
@@ -324,4 +409,14 @@
 	  Например: "Объект #3: Василий Пупкин"
 	- Попробуйте преобразовать один из созданных Вами объектов в строку
 	*/
+
+    // К заданию № 12
+    echo("<hr />");
+    echo("Количество User: ".User::$usersCount."<br />");
+    echo("Количество SuperUser: ".SuperUser::$superUsersCount."<br />");
+
+    checkObject($user01);
+    checkObject($superUser2);
+    checkObject($superUser3);
+
 ?>
