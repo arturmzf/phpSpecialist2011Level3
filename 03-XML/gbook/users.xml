@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<users>
+  <user>
+    <name>Artur Muzafarov</name>
+    <email>artur.mzf@gmail.com</email>
+    <msg>Hello, Everyone!</msg>
+    <ip/>
+    <dateTime>1665845644</dateTime>
+  </user>
+  <user>
+    <name>Kamilla Almuhametova-Muzafarova</name>
+    <email>kamilla.mzf@gmail.com</email>
+    <msg>Hello, Artur!</msg>
+    <ip/>
+    <dateTime>1665845749</dateTime>
+  </user>
+  <user>
+    <name>Kadriya Muzafarova</name>
+    <email>kadriya.mzf@gmail.com</email>
+    <msg>Hello, my Dears!</msg>
+    <ip/>
+    <dateTime>1665845988</dateTime>
+  </user>
+</users>

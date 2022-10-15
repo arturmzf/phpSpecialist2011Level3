@@ -18,6 +18,50 @@
 	и привяжите его к объекту
 */
 
+    define("USERS", "users.xml");
+
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+        $name = stripslashes(trim(strip_tags($_POST["name"])));
+        $email = stripslashes(trim(strip_tags($_POST["email"])));
+        $msg = stripslashes(trim(strip_tags($_POST["msg"])));
+        $ip = $_SERVER["REMOTE_ADR"];
+        $dateTime = time();
+
+        $dom = new DOMDocument("1.0", "utf-8");
+        // Добавили эти настройки в процессе выполнения лабораторной работы - чтобы XML был красивым, с переносами
+        $dom->formatOutput = true;
+        $dom->preserveWhiteSpace = false;
+
+        if(file_exists(USERS)){
+            $dom->load(USERS);
+            $root = $dom->documentElement;
+        }else{
+            $root = $dom->createElement("users");
+            $dom->appendChild($root);
+        }
+
+        $n = $dom->createElement("name", $name);
+        $e = $dom->createElement("email", $email);
+        $m = $dom->createElement("msg", $msg);
+        $i = $dom->createElement("ip", $ip);
+        $dt = $dom->createElement("dateTime", $dateTime);
+
+        $user = $dom->createElement("user");
+        $user->appendchild($n);
+        $user->appendchild($e);
+        $user->appendchild($m);
+        $user->appendchild($i);
+        $user->appendchild($dt);
+        $root->appendChild($user);
+
+        $dom->save(USERS);
+
+        header("Location: gbook.php");
+        exit;
+
+    }
+
 /*
 ЗАДАНИЕ 3
 - Cоздайте новый XML-элемент "user" для очередной записи
@@ -32,39 +76,38 @@
 */	
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <title>Гостевая книга</title>
+        <meta charset="utf-8" />
+    </head>
+    <body>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
-<head>
-	<title>Гостевая книга</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
-</head>
-<body>
+        <h1>Гостевая книга</h1>
 
-<h1>Гостевая книга</h1>
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 
-<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+        Ваше имя:<br />
+        <input type="text" name="name" /><br />
+        Ваш E-mail:<br />
+        <input type="text" name="email" /><br />
+        Сообщение:<br />
+        <textarea name="msg" cols="50" rows="5"></textarea><br />
+        <br />
+        <input type="submit" value="Добавить!" />
 
-Ваше имя:<br />
-<input type="text" name="name" /><br />
-Ваш E-mail:<br />
-<input type="text" name="email" /><br />
-Сообщение:<br />
-<textarea name="msg" cols="50" rows="5"></textarea><br />
-<br />
-<input type="submit" value="Добавить!" />
+        </form>
 
-</form>
+        <?php
+        /*
+        ЗАДАНИЕ 4
+        - Создайте объект SimpleXML и загрузите в него XML-документ
+        - Выведите в браузер все сообщения, а также информацию
+          об авторе каждого сообщения в произвольной форме
+          в обратном порядке
+        */
+        ?>
 
-<?php
-/*
-ЗАДАНИЕ 4
-- Создайте объект SimpleXML и загрузите в него XML-документ
-- Выведите в браузер все сообщения, а также информацию
-  об авторе каждого сообщения в произвольной форме
-  в обратном порядке
-*/
-?>
-
-</body>
+    </body>
 </html>
