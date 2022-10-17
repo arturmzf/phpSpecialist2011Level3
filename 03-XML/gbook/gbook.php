@@ -25,7 +25,7 @@
         $name = stripslashes(trim(strip_tags($_POST["name"])));
         $email = stripslashes(trim(strip_tags($_POST["email"])));
         $msg = stripslashes(trim(strip_tags($_POST["msg"])));
-        $ip = $_SERVER["REMOTE_ADR"];
+        $ip = $_SERVER["REMOTE_ADDR"];
         $dateTime = time();
 
         $dom = new DOMDocument("1.0", "utf-8");

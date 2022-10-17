@@ -21,4 +21,11 @@
     <ip/>
     <dateTime>1665845988</dateTime>
   </user>
+  <user>
+    <name>Rinat Muzafarov</name>
+    <email>rinat.mzf@gmail.com</email>
+    <msg>Hello, People!</msg>
+    <ip>127.0.0.1</ip>
+    <dateTime>1666015966</dateTime>
+  </user>
 </users>
